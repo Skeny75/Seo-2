@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <title>NEURO VR | Шлемы полного погружения — Полная прокрутка только на телефонах</title>
+    <style>
+        /* ========== БАЗОВЫЕ СТИЛИ ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0c12;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            color: #eef2ff;
+            line-height: 1.5;
+        }
+
+        /* Анимации (работают на всех устройствах) */
+        @keyframes contentFadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes contentFadeOut {
+            0% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-15px); }
+        }
+
+        .hero, .wrapper {
+            animation: contentFadeIn 0.85s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+        }
+        .fade-out .hero,
+        .fade-out .wrapper {
+            animation: contentFadeOut 0.4s ease forwards;
+        }
+        .replay-animation .hero,
+        .replay-animation .wrapper {
+            animation: contentFadeIn 0.85s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+        }
+        .replay-animation .wrapper {
+            animation: contentFadeIn 0.85s cubic-bezier(0.2, 0.9, 0.4, 1.1) 0.1s forwards;
+        }
+
+        /* ========== СТИЛИ ДЛЯ ПК (ОРИГИНАЛЬНЫЕ) ========== */
+        .hero {
+            background: linear-gradient(135deg, #05070c 0%, #0b0f1a 100%);
+            padding: 70px 20px 60px 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(76, 130, 245, 0.2);
+        }
+        .hero-inner {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .album-title {
+            font-size: 58px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #ffffff, #a0c0ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 20px;
+        }
+        .tagline {
+            font-size: 18px;
+            color: #9aaec9;
+            font-weight: 400;
+            margin-bottom: 32px;
+            max-width: 580px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .start-link {
+            display: inline-block;
+            background: #3b6eff;
+            color: white;
+            text-decoration: none;
+            padding: 14px 38px;
+            font-weight: 600;
+            font-size: 16px;
+            border-radius: 60px;
+            transition: all 0.3s ease;
+            letter-spacing: 0.3px;
+            box-shadow: 0 4px 14px rgba(59, 110, 255, 0.3);
+            cursor: pointer;
+        }
+        .start-link:hover {
+            background: #1f4fdb;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 24px rgba(59, 110, 255, 0.4);
+        }
+        .reviews-button {
+            display: inline-block;
+            background: transparent;
+            border: 1.5px solid #3b6eff;
+            color: #3b6eff;
+            text-decoration: none;
+            padding: 12px 28px;
+            font-weight: 600;
+            font-size: 16px;
+            border-radius: 60px;
+            transition: all 0.3s ease;
+            letter-spacing: 0.3px;
+            margin-left: 16px;
+            cursor: pointer;
+        }
+        .reviews-button:hover {
+            background: #3b6eff20;
+            transform: translateY(-2px);
+            border-color: #6b8eff;
+            color: #8aadff;
+        }
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .wrapper {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 60px 24px 48px 24px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px 32px;
+            margin-bottom: 70px;
+        }
+        .card {
+            background: #11141f;
+            border-radius: 28px;
+            overflow: hidden;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            border: 1px solid rgba(59, 110, 255, 0.2);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+        }
+        .card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(59, 110, 255, 0.5);
+            box-shadow: 0 24px 36px -12px rgba(0,0,0,0.6);
+        }
+        .card-img {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 700 / 600;
+            object-fit: cover;
+            display: block;
+            background: #1e2438;
+        }
+        .card-content {
+            padding: 24px 24px 28px 24px;
+        }
+        .card-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #ffffff;
+            letter-spacing: -0.2px;
+        }
+        .card-text {
+            font-size: 14px;
+            line-height: 1.55;
+            color: #b4c2e0;
+            font-weight: 400;
+        }
+        footer {
+            border-top: 1px solid rgba(59, 110, 255, 0.2);
+            padding-top: 40px;
+            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 24px;
+        }
+        .footer-left .logo {
+            font-weight: 700;
+            font-size: 20px;
+            letter-spacing: 1px;
+            color: #3b6eff;
+            margin-bottom: 8px;
+        }
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 32px;
+        }
+        .footer-links a {
+            color: #9aaec9;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            transition: color 0.2s;
+            cursor: pointer;
+        }
+        .footer-links a:hover {
+            color: #3b6eff;
+        }
+        .copyright {
+            font-size: 12px;
+            color: #6a7c9e;
+        }
+
+        /* Модальные окна (ПК-стиль) */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(5, 7, 12, 0.85);
+            backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.2s, opacity 0.2s ease;
+        }
+        .modal-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .modal-container {
+            background: #11141f;
+            border-radius: 32px;
+            max-width: 550px;
+            width: 90%;
+            border: 1px solid rgba(59, 110, 255, 0.4);
+            box-shadow: 0 25px 45px -12px rgba(0,0,0,0.8);
+            overflow: hidden;
+            transform: scale(0.96);
+            transition: transform 0.2s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .modal-overlay.active .modal-container {
+            transform: scale(1);
+        }
+        .modal-header {
+            padding: 20px 28px 12px 28px;
+            border-bottom: 1px solid rgba(59, 110, 255, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .modal-header h2 {
+            font-size: 26px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #fff, #8aadff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .close-modal {
+            background: none;
+            border: none;
+            color: #9aaec9;
+            font-size: 30px;
+            cursor: pointer;
+            line-height: 1;
+            transition: color 0.2s;
+            padding: 0 8px;
+        }
+        .close-modal:hover {
+            color: #ff5a6e;
+        }
+        /* На ПК максимальная высота не ограничена принудительно — контент просто растягивает окно */
+        .reviews-list {
+            padding: 24px 28px 32px 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+        .tech-content {
+            padding: 28px 28px 32px 28px;
+            color: #cad2ed;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .privacy-content {
+            padding: 28px 28px 24px 28px;
+            color: #cad2ed;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .info-content {
+            padding: 28px 28px 32px 28px;
+            color: #cad2ed;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .review-item {
+            background: #0c0f18;
+            border-radius: 24px;
+            padding: 20px;
+            border-left: 4px solid #3b6eff;
+        }
+        .reviewer-name {
+            font-weight: 700;
+            font-size: 18px;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+        .stars {
+            display: inline-flex;
+            gap: 4px;
+            letter-spacing: 2px;
+            color: #FFD966;
+            font-size: 18px;
+        }
+        .review-text {
+            font-size: 15px;
+            line-height: 1.5;
+            color: #cad2ed;
+            margin-top: 6px;
+        }
+        .review-date {
+            font-size: 11px;
+            color: #6a7c9e;
+            margin-top: 12px;
+            text-align: right;
+        }
+        .tech-text {
+            margin-bottom: 16px;
+        }
+        .tech-list {
+            margin-top: 8px;
+            padding-left: 20px;
+        }
+        .tech-list li {
+            margin-bottom: 8px;
+        }
+        .privacy-text {
+            margin-bottom: 24px;
+        }
+        .privacy-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: flex-end;
+            margin-top: 16px;
+        }
+        .privacy-btn {
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+        }
+        .privacy-btn.accept {
+            background: #3b6eff;
+            color: white;
+        }
+        .privacy-btn.accept:hover {
+            background: #1f4fdb;
+        }
+        .privacy-btn.decline {
+            background: transparent;
+            border: 1px solid #ff5a6e;
+            color: #ff5a6e;
+        }
+        .info-text {
+            margin-bottom: 8px;
+        }
+        .support-link {
+            color: #3b6eff;
+            text-decoration: none;
+            border-bottom: 1px dashed #3b6eff;
+            transition: color 0.2s;
+        }
+        .support-link:hover {
+            color: #8aadff;
+        }
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1e2438;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3b6eff;
+            border-radius: 10px;
+        }
+
+        /* ========== МОБИЛЬНАЯ АДАПТАЦИЯ (ТОЛЬКО ЗДЕСЬ ДОБАВЛЕНА ПРОКРУТКА) ========== */
+        @media (max-width: 768px) {
+            body {
+                padding: 0 12px;
+            }
+            .hero {
+                padding: 32px 12px 32px 12px;
+                margin: 0 -12px;
+                border-radius: 0 0 24px 24px;
+            }
+            .album-title {
+                font-size: 34px;
+                letter-spacing: -0.3px;
+            }
+            .tagline {
+                font-size: 14px;
+                margin-bottom: 24px;
+            }
+            .button-group {
+                flex-direction: column;
+                gap: 12px;
+                width: 100%;
+            }
+            .start-link, .reviews-button {
+                width: 100%;
+                max-width: 280px;
+                text-align: center;
+                margin-left: 0;
+                padding: 12px 20px;
+            }
+            .wrapper {
+                padding: 32px 0 24px 0;
+            }
+            .grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+                margin-bottom: 48px;
+            }
+            .card-content {
+                padding: 18px 18px 22px;
+            }
+            .card-title {
+                font-size: 20px;
+            }
+            footer {
+                flex-direction: column;
+                text-align: center;
+                gap: 16px;
+            }
+            .footer-links {
+                justify-content: center;
+                gap: 24px;
+            }
+            /* Модалки на телефоне — фиксированная высота и прокрутка для длинного контента */
+            .modal-container {
+                width: 94%;
+                max-height: 85vh;
+                border-radius: 28px;
+                display: flex;
+                flex-direction: column;
+            }
+            .modal-header {
+                padding: 14px 18px 10px 18px;
+                flex-shrink: 0;
+            }
+            .modal-header h2 {
+                font-size: 20px;
+            }
+            /* Включаем прокрутку только на телефонах для тех блоков, где контент может не поместиться */
+            .reviews-list {
+                padding: 16px 18px 22px 18px;
+                gap: 20px;
+                max-height: 65vh;
+                overflow-y: auto;
+            }
+            .tech-content {
+                padding: 18px 20px 24px 20px;
+                max-height: 65vh;
+                overflow-y: auto;
+            }
+            .privacy-content {
+                padding: 18px 20px 24px 20px;
+                max-height: 65vh;
+                overflow-y: auto;
+            }
+            .info-content {
+                padding: 18px 20px 24px 20px;
+                max-height: 65vh;
+                overflow-y: auto;
+            }
+            .review-item {
+                padding: 16px;
+            }
+            .reviewer-name {
+                font-size: 16px;
+                gap: 8px;
+            }
+            .stars {
+                font-size: 16px;
+            }
+            .privacy-buttons {
+                gap: 12px;
+            }
+            .privacy-btn {
+                padding: 8px 18px;
+                font-size: 13px;
+            }
+            .start-link, .reviews-button, .footer-links a, .close-modal, .privacy-btn {
+                cursor: pointer;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .album-title {
+                font-size: 28px;
+            }
+            .start-link, .reviews-button {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="hero">
+    <div class="hero-inner">
+        <div class="album-title">Argus/RECT Progress</div>
+        <div class="tagline">Полное погружение. Нейроинтерфейс нового поколения для игр без границ</div>
+        <div class="button-group">
+            <a href="#" id="chooseHelmetBtn" class="start-link">Выбрать шлем →</a>
+            <button class="reviews-button" id="openReviewsBtn">⭐ Отзывы клиентов</button>
+        </div>
+    </div>
+</div>
+
+<div class="wrapper">
+    <div class="grid">
+        <div class="card">
+            <img class="card-img" src="https://forum.kasperskyclub.ru/uploads/monthly_12_2016/post-43019-0-01267700-1482147739.jpg" loading="lazy">
+            <div class="card-content">
+                <div class="card-title">NerveGear</div>
+                <div class="card-text">Интеграция с нейрочипом нового поколения. Игры с полным физическим взаимодействием и передачей эмоций. Идеально для MMORPG с полным погружением.</div>
+            </div>
+        </div>
+        <div class="card">
+            <img class="card-img" src="https://sittingonclouds.objects.calibour.net/img/album/3407.png" loading="lazy">
+            <div class="card-content">
+                <div class="card-title">NerveGear V2</div>
+                <div class="card-text">Полное погружение с тактильной обратной связью. 120 Гц, разрешение 8K на глаз. Мгновенный отклик нейросенсоров.</div>
+            </div>
+        </div>
+        <div class="card">
+            <img class="card-img" src="https://m.media-amazon.com/images/I/41WBNvIkweL.jpg" alt="VR immersive gaming" loading="lazy">
+            <div class="card-content">
+                <div class="card-title">NerveGear X1</div>
+                <div class="card-text"> Мгновенный отклик, высокое разрешение. Идеально для работы, требующей полного погружения. </div>
+            </div>
+        </div>
+        <div class="card">
+            <img class="card-img" src="https://p.turbosquid.com/ts-thumb/pk/Cjgd0t/X2gqHBBQ/camera.004/png/1570538316/1920x1080/fit_q87/afd0fa072bd3d7660bb6fdbee496f076ffc82267/camera.004.jpg" alt="нейро VR гарнитура" loading="lazy">
+            <div class="card-content">
+                <div class="card-title">AmuSphere</div>
+                <div class="card-text">Беспроводной нейрошлем с автономностью 12 часов. Поддержка всех VR-платформ и игр нового поколения. Мгновенный отклик, высокое разрешение, легче и безопасней предыдущего поколения шлемов. Идеально для киберспорта.</div>
+            </div>
+        </div>
+        <div class="card">
+            <img class="card-img" src="https://i.redd.it/dream-monster-hunter-experience-v0-tajetiercyxc1.jpg?width=300&format=pjpg&auto=webp&s=1fc5d0b93a14fc351b1d3227d9328db0b86b76d8" alt="VR шлем для игр" loading="lazy">
+            <div class="card-content">
+                <div class="card-title">Augma</div>
+                <div class="card-text">Стильный гаджет, работающий с дополненной реальностью (AR) в реальном времени, 120 Гц в разрешнии 1080p. Идеально подходит для работы и игр, где важны физические способности.</div>
+            </div>
+        </div>
+        <div class="card">
+            <img class="card-img" src="https://cdn.thingiverse.com/renders/81/80/31/f1/38/9791fe237c463dabb9e149b20367e2c9_display_large.jpg" alt="нейро интерфейс VR" loading="lazy">
+            <div class="card-content">
+                <div class="card-title">Augma V2</div>
+                <div class="card-text">Флагманская модель с частотой обновления 144 Гц, встроенный ИИ-помощник и адаптивная подстройка под нейроритмы.</div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-left">
+            <div class="logo">Argus/RECT Progress</div>
+            <div class="copyright">© 2022 Argus/RECT Progress. Все права защищены.</div>
+        </div>
+        <div class="footer-links">
+            <a href="#" id="catalogLink">Каталог</a>
+            <a href="#" id="techLink">Технологии</a>
+            <a href="#" id="privacyLink">Privacy Policy</a>
+            <a href="#" id="termsLink">Условия</a>
+            <a href="#" id="supportLink">Поддержка</a>
+        </div>
+    </footer>
+</div>
+
+<!-- Модальное окно с отзывами -->
+<div class="modal-overlay" id="reviewsModal">
+    <div class="modal-container">
+        <div class="modal-header"><h2>📢 Мнения клиентов</h2><button class="close-modal" id="closeModalBtn">&times;</button></div>
+        <div class="reviews-list">
+            <div class="review-item"><div class="reviewer-name">🎮 Kirigaya<span class="stars">★★★★★</span></div><div class="review-text">“Резкий отклик и задержек ноль. Не перегревается, а движения в игре, как настоящие.”</div><div class="review-date">Топ-игрок • 2 дня назад</div></div>
+            <div class="review-item"><div class="reviewer-name">⚔️ Asuna<span class="stars">★★★★★</span></div><div class="review-text">“Аккуратная работа. Без глюков и носить приятно.”</div><div class="review-date">Проверенная покупка • неделю назад</div></div>
+            <div class="review-item"><div class="reviewer-name">🐉 Keiko (Silica)<span class="stars">★★★★★</span></div><div class="review-text">“Пимпочки мигают красиво. Голову не давит. Супер!”</div><div class="review-date">Довольный пользователь • 3 дня назад</div></div>
+            <div class="review-item"><div class="reviewer-name">🏪 Agil<span class="stars">★★★★★</span></div><div class="review-text">“Надёжное железо, прочная сборка. Идеально для длительных сессий. Лучшая инвестиция в демо-зону моего магазина. Очень рекомендую.”</div><div class="review-date">Проверенный продавец • 1 неделю назад</div></div>
+            <div class="review-item"><div class="reviewer-name">🔨 Lisbeth<span class="stars">★★★★★</span></div><div class="review-text">“Нулевая задержка ввода просто супер. Кузнечное дело в VR стало таким реальным. Прочный и стильный. Обожаю удобную посадку!”</div><div class="review-date">Мастер-кузнец • 5 дней назад</div></div>
+            <div class="review-item"><div class="reviewer-name">🎯 Sinon<span class="stars">★★★★★</span></div><div class="review-text">“Снайперская точность 1:1. Прицеливание идеальное, отдача чувствуется как настоящая. Лучший шлем для шутеров!”</div><div class="review-date">Снайпер GGO • 4 дня назад</div></div>
+            <div class="review-item"><div class="reviewer-name">💫 Klein<span class="stars">★★★★☆</span></div><div class="review-text">“Отличная синхронизация, но цена кусается. Зато ощущения — вау!”</div><div class="review-date">5 месяцев назад</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- Технологии (точный оригинальный текст) -->
+<div class="modal-overlay" id="techModal">
+    <div class="modal-container">
+        <div class="modal-header"><h2>⚙️ Технологии</h2><button class="close-modal" id="closeTechModalBtn">&times;</button></div>
+        <div class="tech-content">
+            <div class="tech-text">Наши шлемы используют технологию прямого считывания нейросигналов через 1024 высокоточных датчика, расположенных по внутренней поверхности устройства. Сигнал обрабатывается чипом NeuralCore X2 с частотой 480 Гц, что обеспечивает задержку менее 0.3 мс — незаметно для человеческого восприятия.</div>
+            <div class="tech-text"><strong>Ключевые технологические особенности:</strong></div>
+            <ul class="tech-list">
+                <li>• Полная блокировка сенсоров тела — во время сеанса мозг получает виртуальные сигналы, полностью замещающие тактильные ощущения, равновесие и проприоцепцию.</li>
+                <li>• Адаптивная обратная связь — система подстраивается под индивидуальные нейроритмы пользователя за первые 10 минут использования.</li>
+                <li>• Защита от перегрузки — при превышении лимита времени автоматическое плавное отключение без эффекта «разрыва».</li>
+                <li>• Беспроводная зарядка и передача данных — радиус действия до 15 метров.</li>
+                <li>• Разрешение дисплеев — 8K на глаз (7680×4320), матрица MicroLED с частотой обновления 240 Гц.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Privacy Policy -->
+<div class="modal-overlay" id="privacyModal">
+    <div class="modal-container">
+        <div class="modal-header"><h2>🔒 Политика конфиденциальности</h2><button class="close-modal" id="closePrivacyModalBtn">&times;</button></div>
+        <div class="privacy-content"><div class="privacy-text">Мы собираем минимум данных: только ваш никнейм и историю покупок в виртуальной реальности. Никакие нейрофизиологические данные не передаются третьим лицам. Шлемы Argus/RECT Progress обеспечивают полную анонимность в играх. Вы можете отказаться от сбора телеметрии в любой момент.</div><div class="privacy-buttons"><button class="privacy-btn decline" id="declinePrivacyBtn">Отклонить</button><button class="privacy-btn accept" id="acceptPrivacyBtn">Принять</button></div></div>
+    </div>
+</div>
+
+<!-- Условия -->
+<div class="modal-overlay" id="termsModal">
+    <div class="modal-container">
+        <div class="modal-header"><h2>📜 Условия использования</h2><button class="close-modal" id="closeTermsModalBtn">&times;</button></div>
+        <div class="info-content"><div class="info-text">• Использование шлемов разрешено лицам старше 12 лет.</div><div class="info-text">• Запрещено модифицировать программное обеспечение шлема.</div><div class="info-text">• Мы не несём ответственности за эмоциональные последствия полного погружения.</div><div class="info-text">• Вы соглашаетесь с автоматическим сбором анонимной телеметрии для улучшения продукта.</div><div class="info-text">• Возврат возможен в течение 14 дней при сохранении товарного вида.</div></div>
+    </div>
+</div>
+
+<!-- Поддержка -->
+<div class="modal-overlay" id="supportModal">
+    <div class="modal-container">
+        <div class="modal-header"><h2>🛠️ Поддержка</h2><button class="close-modal" id="closeSupportModalBtn">&times;</button></div>
+        <div class="info-content"><div class="info-text">📧 Email: support@argus-rect-progress.com</div><div class="info-text">📞 Телефон: 0670-671-864</div><div class="info-text">💬 Часы работы: Пн-Пт, 10:00 - 20:00 по JST</div><div class="info-text">🌐 Онлайн-чат доступен на сайте 24/7</div><div class="info-text">🔧 Гарантийное обслуживание: 3 года</div><div class="info-text">✨ <a href="https://www.moj.go.jp/EN/" target="_blank" class="support-link">Министерство юстиций</a></div></div>
+    </div>
+</div>
+
+<script>
+    (function(){
+        // DOM элементы
+        const openReviewsBtn = document.getElementById('openReviewsBtn');
+        const reviewsModal = document.getElementById('reviewsModal');
+        const closeReviewsBtn = document.getElementById('closeModalBtn');
+        const techLink = document.getElementById('techLink');
+        const techModal = document.getElementById('techModal');
+        const closeTechBtn = document.getElementById('closeTechModalBtn');
+        const privacyLink = document.getElementById('privacyLink');
+        const privacyModal = document.getElementById('privacyModal');
+        const closePrivacyBtn = document.getElementById('closePrivacyModalBtn');
+        const acceptPrivacy = document.getElementById('acceptPrivacyBtn');
+        const declinePrivacy = document.getElementById('declinePrivacyBtn');
+        const termsLink = document.getElementById('termsLink');
+        const termsModal = document.getElementById('termsModal');
+        const closeTermsBtn = document.getElementById('closeTermsModalBtn');
+        const supportLink = document.getElementById('supportLink');
+        const supportModal = document.getElementById('supportModal');
+        const closeSupportBtn = document.getElementById('closeSupportModalBtn');
+        const catalogLink = document.getElementById('catalogLink');
+        const chooseHelmet = document.getElementById('chooseHelmetBtn');
+
+        function openModal(modal) { if(modal) { modal.classList.add('active'); document.body.style.overflow = 'hidden'; } }
+        function closeModal(modal) { if(modal) { modal.classList.remove('active'); document.body.style.overflow = ''; } }
+
+        if(openReviewsBtn) openReviewsBtn.onclick = () => openModal(reviewsModal);
+        if(closeReviewsBtn) closeReviewsBtn.onclick = () => closeModal(reviewsModal);
+        if(techLink) techLink.onclick = (e) => { e.preventDefault(); openModal(techModal); };
+        if(closeTechBtn) closeTechBtn.onclick = () => closeModal(techModal);
+        if(privacyLink) privacyLink.onclick = (e) => { e.preventDefault(); openModal(privacyModal); };
+        if(closePrivacyBtn) closePrivacyBtn.onclick = () => closeModal(privacyModal);
+        if(acceptPrivacy) acceptPrivacy.onclick = () => closeModal(privacyModal);
+        if(declinePrivacy) declinePrivacy.onclick = () => closeModal(privacyModal);
+        if(termsLink) termsLink.onclick = (e) => { e.preventDefault(); openModal(termsModal); };
+        if(closeTermsBtn) closeTermsBtn.onclick = () => closeModal(termsModal);
+        if(supportLink) supportLink.onclick = (e) => { e.preventDefault(); openModal(supportModal); };
+        if(closeSupportBtn) closeSupportBtn.onclick = () => closeModal(supportModal);
+        if(catalogLink) catalogLink.onclick = (e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); };
+
+        // Анимация перезапуска сайта (работает на всех устройствах)
+        function restartSiteAnimation() {
+            document.body.classList.add('fade-out');
+            setTimeout(() => {
+                document.body.classList.remove('fade-out');
+                document.body.classList.add('replay-animation');
+                setTimeout(() => {
+                    document.body.classList.remove('replay-animation');
+                }, 900);
+            }, 400);
+        }
+        if(chooseHelmet) {
+            chooseHelmet.onclick = (e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                setTimeout(() => restartSiteAnimation(), 80);
+            };
+        }
+
+        // Закрытие по клику на фон и Escape
+        const modals = [reviewsModal, techModal, privacyModal, termsModal, supportModal];
+        modals.forEach(modal => {
+            if(modal) modal.addEventListener('click', (e) => { if(e.target === modal) closeModal(modal); });
+        });
+        document.addEventListener('keydown', (e) => {
+            if(e.key === 'Escape') modals.forEach(m => { if(m && m.classList.contains('active')) closeModal(m); });
+        });
+    })();
+</script>
+</body>
+</html>
